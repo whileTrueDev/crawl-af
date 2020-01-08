@@ -88,9 +88,9 @@ def save_title(): #live화면에서 방송제목 가져오기
 
 
 def current_viewer(): #live화면에서 현재 시청자수 가져오기
-    driver.find_element_by_xpath("""//*[@id="stop_screen"]/dl/dd[2]/a""").click()
+    driver.find_element_by_xpath("""//*[@id="stop_screen"]/dl/dd[2]/a""").click()#cssselector를 이용하면 클릭이 제대로 
     time.sleep(4)
-    viewer = driver.find_element_by_xpath("""//*[@id="nAllViewer"]""")
+    viewer = driver.find_element_by_xpath("""//*[@id="nAllViewer"]""") # cssselector를 이용하면 현재시청자수가 정확히 반환되지않아 xpath사용
     viewer_i.append(viewer.text)
     if str(0) in viewer.text: #크롤링중 방송이 종료되었을때 데이터 수집 안함
         write_ws['D{}'.format(rank)] = '방송이 종료되었습니다' 
