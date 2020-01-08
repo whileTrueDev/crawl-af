@@ -190,7 +190,9 @@ while i < a:
     int(i)
     if bj_list[i] in bj_id_i: #bj_list속 id가 bj_id_i에 있는지 비교하기
         indexno = bj_id_i.index(bj_list[i]) #있다면 인덱스 번호 반환
-        print(data.loc[indexno])#방송데이터 엑셀에서 인덱스 번호 찾고 출력
+        result = data.loc[indexno] #방송 데이터 엑셀 안에 있는 행 인덱스 번호에 따라 가져오기
+        datafram = DataFrame(result) # 행의 결과를 데이터 프레임으로 
+        datafram.to_excel("방송정보.xlsx")#방송중인 bj를 엑셀파일로 저장하기
     else:
         print("해당 bj가 방송중이지 않습니다")
     i = i + 1
