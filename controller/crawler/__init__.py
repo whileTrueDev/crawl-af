@@ -37,6 +37,7 @@ class Crawler:
             self._webdriver_path, options=self.__options)  # 크롬 드라이버 실행
         self.__driver.get(self._url)
 
+        # Time Settings
         self.start_time = datetime.now()
         self.running_time = time.time()
 
@@ -69,7 +70,8 @@ class Crawler:
                 time.sleep(time_sleep)
             except Exception:
                 complete_time = time.time()
-                print('[%s] 더보기 클릭 완료: %s' % (datetime.now(), str(complete_time - start_time)))
+                print('[%s] 더보기 클릭 완료: %s' %
+                      (datetime.now(), str(complete_time - start_time)))
                 break
 
         self.full_page_source = self.__driver.page_source

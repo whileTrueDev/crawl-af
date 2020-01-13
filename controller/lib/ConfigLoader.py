@@ -1,3 +1,7 @@
+import os
+import platform
+import json
+
 
 class ConfigLoader:
     '''
@@ -14,9 +18,6 @@ class ConfigLoader:
     @staticmethod
     def db_load(config_path):
         __config = config_path
-
-        import os
-        import json
 
         env = os.environ.get('PYTHON_ENV')
         if (env == 'production'):
@@ -48,3 +49,20 @@ class ConfigLoader:
             )
 
             return db_url
+
+    @staticmethod
+    def driver_load(ROOT_PATH):
+        linux = 'linux'
+        mac = 'darwin'
+        windows = 'windows'
+
+        osname = platform.system().lower()
+        print("Operating system : %s" % osname)
+        if osname == linux:
+            DRIVER_PATH = os.path.join(ROOT_PATH, 'chromedriver_linux')
+        if osname == mac:
+            DRIVER_PATH = os.path.join(ROOT_PATH, 'chromedriver_mac')
+        if osname == windows:
+            DRIVER_PATH = os.path.join(ROOT_PATH, 'chromedriver.exe')
+
+        return DRIVER_PATH
