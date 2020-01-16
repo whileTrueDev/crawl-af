@@ -2,7 +2,6 @@ from datetime import datetime
 import time
 from model.DBManager import DBManager
 from controller.lib.ConfigLoader import ConfigLoader
-from PIL import Image
 
 
 class Crawler:
@@ -97,21 +96,8 @@ class Crawler:
         for broad in self.broad_list:
             data = get_element_with_error_check(broad)
             self.broad_data.append(data)
-
-    def get_category_with_screenshot(self): #원래의 get_broad_detail_data
-        repeat = 1
-        while repeat < 100:
-            self.__driver.find_element_by_css_selector("""#broadlist_area > div > ul > li:nth-child({}) > div > a.box_link""".format(repeat)).click()
-            self.__driver.find_element_by_css_selector("""#layer_high_quality > div > span > a > span""").click() #고화질 스트리머는 시간이 많이걸려 저화질로 캡처
-            time.sleep(3)
-            driver.save_screenshot("bj_{}.png".format(repeat)) #실행코드가 존재하는 파일안에 스크린샷 저장
-            im = Image.open("bj_{}.png".format(repeat))
-            cropimage = im.crop((0, 70, 1600, 1070))
-            self.cropimage.save('bj_{}.png'.format(repeat))        
-            category = driver.find_element_by_css_selector("""#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(4) > span""").text
-            self.__driver.close()
-            self.__driver.switch_to_window(driver.window_handels[0])
-            self.broad_data.appendTo(category)
+    def get_broad_detail_data(self):
+        pass
 
     def insert(self):
         '''
