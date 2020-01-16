@@ -49,6 +49,7 @@ class Crawler:
         self.show_all_broad_list_area()
         self.get_broad_data()
         print("[%s] Data getting job Done..." % datetime.now())
+        self.get_category_with_screenshot() #스크린샷, 카테고리 추가
         self.insert()
         self.close()
 
