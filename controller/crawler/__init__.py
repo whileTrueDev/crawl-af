@@ -2,6 +2,7 @@ from datetime import datetime
 import time
 from model.DBManager import DBManager
 from controller.lib.ConfigLoader import ConfigLoader
+from PIL import Image
 
 
 class Crawler:
@@ -43,15 +44,22 @@ class Crawler:
 
     def run(self):
         '''
-        Crawl one typing start method
+        one-click Crawling start method
         '''
         self.init()
         self.show_all_broad_list_area()
         self.get_broad_data()
         print("[%s] Data getting job Done..." % datetime.now())
-        self.get_category_with_screenshot() #스크린샷, 카테고리 추가
         self.insert()
         self.close()
+
+    def run_screenshot(self):
+        '''
+        test 필요.
+        '''
+        self.init()
+        self.show_all_broad_list_area()
+        self.get_category_with_screenshot()
 
     # Crawling Methods
     def show_all_broad_list_area(self, time_sleep=1.0):
@@ -97,8 +105,38 @@ class Crawler:
         for broad in self.broad_list:
             data = get_element_with_error_check(broad)
             self.broad_data.append(data)
+
     def get_broad_detail_data(self):
         pass
+
+    def get_category_with_screenshot(self):
+        '''
+        Get the data category and screenshot
+        '''
+        repeat = 1
+        while repeat < 100:
+            self.__driver.find_element_by_css_selector(
+                """#broadlist_area > div > ul > li:nth-child({}) > div > a.box_link""".format(repeat)).click()
+            self.__driver.find_element_by_css_selector(
+                """#layer_high_quality > div > span > a > span""").click()  # 고화질 스트리머는 시간이 많이걸려 저화질로 캡처
+
+            time.sleep(3)
+
+            self.__driver.save_screenshot("bj_{}.png".format(
+                repeat))  # 실행코드가 존재하는 파일안에 스크린샷 저장
+            im = Image.open("bj_{}.png".format(repeat))
+            cropimage = im.crop((0, 70, 1600, 1070))
+
+            cropimage.save('bj_{}.png'.format(repeat))
+
+            category = self.__driver.find_element_by_css_selector(
+                """#player_area > div.broadcast_information > div.text_information > ul > li:nth-child(4) > span""").text
+
+            self.__driver.close()
+
+            # self.__driver.switch_to_window(self.__driver.window_handels[0])
+
+            # self.broad_data.appendTo(category)
 
     def insert(self):
         '''
