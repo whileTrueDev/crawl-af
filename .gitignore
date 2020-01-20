@@ -1,0 +1,9 @@
+config.json
+
+*.log
+
+__pycache__
+
+task.json
+
+.env
